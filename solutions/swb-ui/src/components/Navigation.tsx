@@ -27,7 +27,8 @@ export default function Navigation({
   };
   const adminNavItems: ReadonlyArray<SideNavigationProps.Item> = [
     { type: 'link', text: 'Users', href: '/users' },
-    { type: 'link', text: 'Workspaces', href: '/environments' }
+    { type: 'link', text: 'Workspaces', href: '/environments' },
+    { type: 'link', text: 'Workspace Types', href: '/environmentstype' }
   ];
   const userNavItems: ReadonlyArray<SideNavigationProps.Item> = [
     { type: 'link', text: 'Workspaces', href: '/environments' }
