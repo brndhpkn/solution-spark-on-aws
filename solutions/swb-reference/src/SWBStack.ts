@@ -277,7 +277,10 @@ export class SWBStack extends Stack {
         })
       ]
     });
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
     const sagemakerNotebookPolicy = new PolicyDocument({
       statements: [
         new PolicyStatement({
