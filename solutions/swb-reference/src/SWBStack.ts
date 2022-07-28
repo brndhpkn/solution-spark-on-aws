@@ -640,6 +640,11 @@ export class SWBStack extends Stack {
             sid: 'ScAccess'
           }),
           new PolicyStatement({
+            actions: ['servicecatalog:SearchProductsAsAdmin'],
+            resources: [`arn:aws:catalog:${AWS_REGION}:*:product/*`],
+            sid: 'ScSearchProducts'
+          }),
+          new PolicyStatement({
             actions: ['cognito-idp:DescribeUserPoolClient'],
             resources: [`arn:aws:cognito-idp:${AWS_REGION}:${this.account}:userpool/*`],
             sid: 'CognitoAccess'

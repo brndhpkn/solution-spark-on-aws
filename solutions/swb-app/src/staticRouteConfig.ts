@@ -218,5 +218,8 @@ export const routesIgnored: RoutesIgnored = {
   },
   '/loggedIn': {
     GET: true
+  },
+  '/products': {
+    GET: true
   }
 };

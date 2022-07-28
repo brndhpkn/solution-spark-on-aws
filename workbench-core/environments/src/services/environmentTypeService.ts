@@ -5,6 +5,7 @@
 
 import { AwsService, buildDynamoDBPkSk, QueryParams } from '@amzn/workbench-core-base';
 import { GetItemCommandOutput } from '@aws-sdk/client-dynamodb';
+import { ProductViewDetail } from '@aws-sdk/client-service-catalog';
 
 import Boom from '@hapi/boom';
 import { v4 as uuidv4 } from 'uuid';
@@ -192,5 +193,28 @@ export default class EnvironmentTypeService {
     }
     console.error('Unable to create environment type', newEnvType);
     throw Boom.internal(`Unable to create environment type with params: ${JSON.stringify(params)}`);
+  }
+
+  public async getProducts(
+    paginationToken?: string
+  ): Promise<{ data: ProductViewDetail[]; paginationToken: string | undefined }> {
+    const queryParams: QueryParams = {
+      key: { name: 'resourceType', value: 'portfolio' },
+      index: 'getResourceByCreatedAt',
+      limit: DEFAULT_API_PAGE_SIZE
+    };
+
+    const ddbResponse = await this._aws.helpers.ddb.query(queryParams).execute();
+    const items = ddbResponse.Items;
+    if (items !== undefined && items.length > 0) {
+      const portfolioId = items[0].id.S;
+      if (portfolioId !== undefined) {
+        return await this._aws.helpers.serviceCatalog.listServiceCatalogProducts(
+          portfolioId,
+          paginationToken
+        );
+      }
+    }
+    throw Boom.notFound('Could not find any Products');
   }
 }
