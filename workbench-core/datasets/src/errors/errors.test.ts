@@ -20,7 +20,6 @@ describe('custom error tests', () => {
 
     expect(isEndPointExistsError(endPointExistsError)).toBe(true);
   });
-
   test('not endPointExistsError', () => {
     expect(isEndPointExistsError(error)).toBe(false);
   });
@@ -40,7 +39,6 @@ describe('custom error tests', () => {
 
     expect(isRoleExistsOnEndpointError(roleExistsOnEndPointError)).toBe(true);
   });
-
   test('not RoleExistsOnEndPointError', () => {
     expect(isRoleExistsOnEndpointError(error)).toBe(false);
   });
