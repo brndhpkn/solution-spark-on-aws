@@ -7,8 +7,7 @@ import {
   CreateEnvironmentTypeSchema,
   EnvironmentTypeService,
   isEnvironmentTypeStatus,
-  ENVIRONMENT_TYPE_STATUS,
-  UpdateEnvironmentTypeSchema
+  ENVIRONMENT_TYPE_STATUS
 } from '@amzn/environments';
 import Boom from '@hapi/boom';
 import { Request, Response, Router } from 'express';

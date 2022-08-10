@@ -11,17 +11,41 @@ import {
 import * as React from 'react';
 import { columnDefinitions } from '../environments-table-config/awsServiceCatalogColumnDefinition';
 import { allItems } from '../environments-table-config/awsServiceCatalogData';
+import { useProducts } from '../api/environmentTypes';
+import { ProductsTableFilter } from '../models/Product';
+import { useState } from 'react';
+import { AWSSCProductItem } from '../models/EnvironmentTypeConfig';
 
 function AwsServiceCatalogProductsTable(): JSX.Element {
-  const { collectionProps } = useCollection(allItems, {
+  const pageSizeOptions = [
+    { label: '20', value: 20 },
+    { label: '30', value: 30 },
+    { label: '50', value: 50 }
+  ];
+  const [filterParams] = useState<ProductsTableFilter>({
+    paginationToken: '',
+    currentPageIndex: 1,
+    paginationTokens: new Map<number, string>().set(1, ''),
+    hasOpenEndPagination: true,
+    pageCount: 1
+  });
+
+  const { products, mutate, paginationToken, areProductsLoading } = useProducts({
+    pageSize: 20,
+    paginationToken: filterParams.paginationToken
+  });
+
+  const { items, filteredItemsCount, collectionProps, propertyFilterProps } = useCollection(allItems, {
     sorting: {},
     selection: {}
   });
+  collectionProps.selectedItems;
   return (
     <Table
       {...collectionProps}
       selectionType="multi"
       selectedItems={collectionProps.selectedItems}
+      loading={areProductsLoading}
       ariaLabels={{
         selectionGroupLabel: 'Items selection',
         allItemsSelectionLabel: ({ selectedItems }) =>
@@ -32,7 +56,7 @@ function AwsServiceCatalogProductsTable(): JSX.Element {
         }
       }}
       columnDefinitions={columnDefinitions}
-      items={allItems}
+      items={items}
       loadingText="Loading resources"
       trackBy="name"
       visibleColumns={['name', 'description']}

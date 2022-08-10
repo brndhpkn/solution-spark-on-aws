@@ -7,6 +7,7 @@ import WorkspaceTypesTable from '../components/WorkspaceTable';
 const Environmentstype = (): JSX.Element => {
   // eslint-disable-next-line prefer-const
   let [navigationOpen, setNavigationOpen] = useState(false);
+
   return (
     <>
       <AppLayout

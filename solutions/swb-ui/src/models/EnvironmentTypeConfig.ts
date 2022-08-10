@@ -9,3 +9,8 @@ export interface EnvTypeConfigItem {
   estimatedCost: number;
   type: string;
 }
+
+export interface AWSSCProductItem {
+  name: string;
+  description: string;
+}
