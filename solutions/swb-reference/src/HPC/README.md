@@ -42,13 +42,18 @@ Image:
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::AWS-Hosting-Account-ID:role/parallelcluster/*/*"
+                "AWS": "arn:aws:iam::<AWS-Hosting-Account-ID>:root"
             },
             "Action": "s3:*",
             "Resource": [
-                "arn:aws:s3:::main-account-bucket",
-                "arn:aws:s3:::main-account-bucket/*"
-            ]
+                "arn:aws:s3:::<main-account-bucket-name>",
+                "arn:aws:s3:::<main-account-bucket-name>/*"
+            ],
+            "Condition": {
+                "ArnEquals": {
+                    "aws:PrincipalArn": "arn:aws:iam::<AWS-Hosting-Account-ID>:role/parallelcluster/*/*"
+                }
+            }
         }
     ]
 }
