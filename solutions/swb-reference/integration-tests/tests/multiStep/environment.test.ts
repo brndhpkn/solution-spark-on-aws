@@ -19,8 +19,8 @@ describe('multiStep environment test', () => {
   });
 
   test('launch, connect, stop, get, terminate', async () => {
-    const { data: response } = await adminSession.resources.environments.create();
-    expect(response).toMatchObject({
+    const { data: environmentA } = await adminSession.resources.environments.create();
+    expect(environmentA).toMatchObject({
       id: expect.stringMatching(uuidRegExp),
       instanceId: '', // empty string because instanceId value has not been propagated by statusHandler yet
       provisionedProductId: '', // empty string because provisionedProductId  has not been propagated by statusHandler yet
@@ -29,6 +29,25 @@ describe('multiStep environment test', () => {
       PROJ: expect.anything() // PROJ should be defined
     });
 
-    // TODO: Add connect, stop, get, terminate test
+    const { data: environmentB } = await adminSession.resources.environments.create();
+    expect(environmentB).toMatchObject({
+      id: expect.stringMatching(uuidRegExp),
+      instanceId: '', // empty string because instanceId value has not been propagated by statusHandler yet
+      provisionedProductId: '', // empty string because provisionedProductId  has not been propagated by statusHandler yet
+      status: 'PENDING',
+      ETC: expect.anything(), //ETC should be defined
+      PROJ: expect.anything() // PROJ should be defined
+    });
+
+    // await adminSession.resources.environments.environment(environmentA.id).connect();
+    // await adminSession.resources.environments.environment(environmentA.id).stop();
+    // await adminSession.resources.environments.get({name: environmentA.name, ascending: "name"});
+    // await adminSession.resources.environments.get({status: environmentA.status, ascending: "status"});
+    // await adminSession.resources.environments.get({createdAtFrom: environmentA.createdAt, createdAtTo: environmentA.createdAt, ascending: "createdAt"});
+    // await adminSession.resources.environments.get({owner: environmentA.owner, ascending: "owner"});
+    // await adminSession.resources.environments.environment(environmentA.id).start();
+    // await adminSession.resources.environments.environment(environmentA.id).terminate();
+    // await adminSession.resources.environments.environment(environmentB.id).terminate();
+    // await adminSession.resources.environments.get({});
   });
 });
