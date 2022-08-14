@@ -14,10 +14,10 @@ export default class Environment extends Resource {
     super(clientSession, 'environment', id, parentApi);
   }
 
-  //eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async pollEnvironment(
     pollingIntervalInSeconds: number,
     maxWaitTimeInSeconds: number,
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     pollingWhile: (env: any) => boolean
   ): Promise<void> {
     const startTimeInMs = Date.now();

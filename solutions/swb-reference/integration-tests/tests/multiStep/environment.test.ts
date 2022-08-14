@@ -114,8 +114,8 @@ describe('multiStep environment test', () => {
     const { data: environmentsNameFilter } = await adminSession.resources.environments.get({
       name: environmentAStopped.name
     });
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
       environmentsNameFilter?.data?.filter((env: any) => env.id === environmentAStopped.id)?.length
     ).toBeTruthy();
 
@@ -124,8 +124,8 @@ describe('multiStep environment test', () => {
     const { data: environmentsStatusFilter } = await adminSession.resources.environments.get({
       status: environmentAStopped.status
     });
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
       environmentsStatusFilter?.data?.filter((env: any) => env.id === environmentAStopped.id)?.length
     ).toBeTruthy();
 
@@ -135,8 +135,8 @@ describe('multiStep environment test', () => {
       createdAtFrom: environmentAStopped.createdAt,
       createdAtTo: environmentAStopped.createdAt
     });
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
       environmentsCreatedAtFilter?.data?.filter((env: any) => env.id === environmentAStopped.id)?.length
     ).toBeTruthy();
 
@@ -145,8 +145,8 @@ describe('multiStep environment test', () => {
     const { data: environmentsOwnerFilter } = await adminSession.resources.environments.get({
       owner: environmentAStopped.owner
     });
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
       environmentsOwnerFilter?.data?.filter((env: any) => env.id === environmentAStopped.id)?.length
     ).toBeTruthy();
 
@@ -230,8 +230,8 @@ describe('multiStep environment test', () => {
     //Validate Environments A and B are not retrieved on get all environments call
     console.log('Searching Environment A filtering by owner');
     const { data: allEnvironments } = await adminSession.resources.environments.get({});
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
       allEnvironments?.data?.filter((env: any) => env.id === environmentA.id || env.id === environmentB.id)
         ?.length
     ).toBeFalsy();
