@@ -4,16 +4,13 @@
  */
 
 import { resourceTypeToKey, uuidWithLowercasePrefixRegExp } from '@aws/workbench-core-base';
-import {
-  CreateDataSetSchema,
-  CreateExternalEndpointSchema,
-  DataSetService,
-  DataSetsStoragePlugin
-} from '@aws/workbench-core-datasets';
+import { DataSetService, DataSetsStoragePlugin, DataSetType } from '@aws/workbench-core-datasets';
 import Boom from '@hapi/boom';
 import { Request, Response, Router } from 'express';
 import { validate } from 'jsonschema';
 import { wrapAsync } from './errorHandlers';
+import CreateDataSetSchema from './schemas/createDataSet';
+import CreateExternalEndpointSchema from './schemas/createExternalEndpoint';
 import { processValidatorResult } from './validatorHelper';
 
 export function setUpDSRoutes(
@@ -21,7 +18,8 @@ export function setUpDSRoutes(
   dataSetService: DataSetService,
   dataSetStoragePlugin: DataSetsStoragePlugin,
   datasetStorageAccount: string,
-  mainAccountId: string
+  mainAccountId: string,
+  region: string
 ): void {
   // creates new prefix in S3 (assumes S3 bucket exist already)
   router.post(
@@ -33,8 +31,11 @@ export function setUpDSRoutes(
         storageName: datasetStorageAccount,
         path: req.body.path,
         awsAccountId: mainAccountId,
-        region: req.body.region,
-        storageProvider: dataSetStoragePlugin
+        region,
+        storageProvider: dataSetStoragePlugin,
+        description: req.body.description,
+        type: DataSetType.INTERNAL,
+        owner: req.body.owningProjectId
       });
 
       res.status(201).send(dataSet);
@@ -51,8 +52,11 @@ export function setUpDSRoutes(
         storageName: datasetStorageAccount,
         path: req.body.path,
         awsAccountId: mainAccountId,
-        region: req.body.region,
-        storageProvider: dataSetStoragePlugin
+        region,
+        storageProvider: dataSetStoragePlugin,
+        description: req.body.description,
+        type: DataSetType.INTERNAL,
+        owner: req.body.owningProjectId
       });
       res.status(201).send(dataSet);
     })

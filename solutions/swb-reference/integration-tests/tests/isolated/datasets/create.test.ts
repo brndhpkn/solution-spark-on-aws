@@ -28,13 +28,13 @@ describe('datasets create negative tests', () => {
   const validLaunchParameters = {
     datasetName: randomTextGenerator.getFakeText('fakeName'),
     path: randomTextGenerator.getFakeText('fakePath'),
-    region: randomTextGenerator.getFakeText('fakeRegion')
+    owningProjectId: randomTextGenerator.getFakeText('fakeOwningProjectId')
   };
 
   describe('missing parameters', () => {
     test('datasetName', async () => {
       try {
-        const invalidParam: { [id: string]: string } = { ...validLaunchParameters };
+        const invalidParam: Partial<typeof validLaunchParameters> = { ...validLaunchParameters };
         delete invalidParam.datasetName;
         await adminSession.resources.datasets.create(invalidParam, false);
       } catch (e) {
@@ -51,7 +51,7 @@ describe('datasets create negative tests', () => {
 
     test('path', async () => {
       try {
-        const invalidParam: { [id: string]: string } = { ...validLaunchParameters };
+        const invalidParam: Partial<typeof validLaunchParameters> = { ...validLaunchParameters };
         delete invalidParam.path;
         await adminSession.resources.datasets.create(invalidParam, false);
       } catch (e) {
@@ -66,10 +66,11 @@ describe('datasets create negative tests', () => {
       }
     });
 
-    test('region', async () => {
+    test('owningProjectId', async () => {
       try {
-        const invalidParam: { [id: string]: string } = { ...validLaunchParameters };
-        delete invalidParam.region;
+        const invalidParam: Partial<typeof validLaunchParameters> = { ...validLaunchParameters };
+        delete invalidParam.owningProjectId;
+
         await adminSession.resources.datasets.create(invalidParam, false);
       } catch (e) {
         checkHttpError(
@@ -77,7 +78,7 @@ describe('datasets create negative tests', () => {
           new HttpError(400, {
             statusCode: 400,
             error: 'Bad Request',
-            message: "requires property 'region'"
+            message: "requires property 'owningProjectId'"
           })
         );
       }
@@ -92,7 +93,8 @@ describe('datasets create negative tests', () => {
           new HttpError(400, {
             statusCode: 400,
             error: 'Bad Request',
-            message: "requires property 'datasetName'. requires property 'path'. requires property 'region'"
+            message:
+              "requires property 'datasetName'. requires property 'path'. requires property 'owningProjectId'"
           })
         );
       }

@@ -12,10 +12,11 @@ const CreateDataSetSchema: Schema = {
   properties: {
     datasetName: { type: 'string' },
     path: { type: 'string' },
-    region: { type: 'string' }
+    description: { type: 'string' },
+    owningProjectId: { type: 'string' }
   },
   additionalProperties: false,
-  required: ['datasetName', 'path', 'region']
+  required: ['datasetName', 'path', 'owningProjectId']
 };
 
 export default CreateDataSetSchema;
