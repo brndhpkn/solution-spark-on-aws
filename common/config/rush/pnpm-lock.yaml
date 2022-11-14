@@ -194,7 +194,7 @@ importers:
       '@aws-sdk/client-service-catalog': ^3.118.1
       '@aws-sdk/client-ssm': ^3.118.1
       '@aws-sdk/client-sts': ^3.118.1
-      '@aws-sdk/types': ^3.110.0
+      '@aws-sdk/types': ^3.208.0
       '@aws/eslint-config-workbench-core-eslint-custom': workspace:*
       '@aws/swb-app': workspace:*
       '@aws/workbench-core-accounts': workspace:*
@@ -252,7 +252,7 @@ importers:
       '@aws-sdk/client-service-catalog': 3.130.0
       '@aws-sdk/client-ssm': 3.130.0
       '@aws-sdk/client-sts': 3.130.0
-      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/types': 3.208.0
       '@aws/swb-app': link:../swb-app
       '@aws/workbench-core-accounts': link:../../workbench-core/accounts
       '@aws/workbench-core-audit': link:../../workbench-core/audit
@@ -263,7 +263,7 @@ importers:
       '@aws/workbench-core-infrastructure': link:../../workbench-core/infrastructure
       '@aws/workbench-core-logging': link:../../workbench-core/logging
       '@vendia/serverless-express': 4.8.0
-      aws-sdk-client-mock: 0.6.2_022fc6104525ff2e9954829bc53982bf
+      aws-sdk-client-mock: 0.6.2_f6f85d66719bb3c537a09c49c4093bc3
       csrf: 3.1.0
       express: 4.18.1
       js-yaml: 4.1.0
@@ -467,7 +467,7 @@ importers:
       '@aws-sdk/client-service-catalog': ^3.118.1
       '@aws-sdk/client-ssm': ^3.118.1
       '@aws-sdk/s3-request-presigner': ^3.208.0
-      '@aws-sdk/types': ^3.110.0
+      '@aws-sdk/types': ^3.208.0
       '@aws-sdk/util-dynamodb': ^3.87.0
       '@aws/eslint-config-workbench-core-eslint-custom': workspace:*
       '@aws/workbench-core-audit': workspace:*
@@ -514,7 +514,7 @@ importers:
       '@aws-sdk/client-service-catalog': 3.130.0
       '@aws-sdk/client-ssm': 3.130.0
       '@aws-sdk/s3-request-presigner': 3.208.0
-      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/types': 3.208.0
       '@aws-sdk/util-dynamodb': 3.105.0
       '@aws/workbench-core-audit': link:../audit
       '@aws/workbench-core-base': link:../base
@@ -535,7 +535,7 @@ importers:
       '@types/node': 14.18.20
       '@types/triple-beam': 1.3.2
       '@types/uuid': 8.3.4
-      aws-sdk-client-mock: 0.6.2_022fc6104525ff2e9954829bc53982bf
+      aws-sdk-client-mock: 0.6.2_f6f85d66719bb3c537a09c49c4093bc3
       depcheck: 1.4.3
       eslint: 8.16.0
       eslint-plugin-import: 2.26.0_eslint@8.16.0
@@ -663,7 +663,7 @@ importers:
     specifiers:
       '@aws-sdk/client-cognito-identity-provider': ^3.118.1
       '@aws-sdk/client-s3': ^3.208.0
-      '@aws-sdk/types': ^3.110.0
+      '@aws-sdk/types': ^3.208.0
       '@aws/eslint-config-workbench-core-eslint-custom': workspace:*
       '@aws/workbench-core-authorization': workspace:*
       '@aws/workbench-core-base': workspace:*
@@ -705,7 +705,7 @@ importers:
     devDependencies:
       '@aws-sdk/client-cognito-identity-provider': 3.130.0
       '@aws-sdk/client-s3': 3.208.0
-      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/types': 3.208.0
       '@aws/eslint-config-workbench-core-eslint-custom': link:../eslint-custom
       '@rushstack/eslint-config': 3.0.0_eslint@8.16.0+typescript@4.7.2
       '@rushstack/heft': 0.47.5
@@ -716,7 +716,7 @@ importers:
       '@types/heft-jest': 1.0.2
       '@types/lodash': 4.14.182
       '@types/node': 14.18.20
-      aws-sdk-client-mock: 0.6.2_022fc6104525ff2e9954829bc53982bf
+      aws-sdk-client-mock: 0.6.2_f6f85d66719bb3c537a09c49c4093bc3
       depcheck: 1.4.3
       eslint: 8.16.0
       eslint-plugin-import: 2.26.0_eslint@8.16.0
@@ -800,7 +800,7 @@ importers:
       '@aws-sdk/client-service-catalog': ^3.118.1
       '@aws-sdk/client-ssm': ^3.118.1
       '@aws-sdk/client-sts': ^3.118.1
-      '@aws-sdk/types': ^3.110.0
+      '@aws-sdk/types': ^3.208.0
       '@aws-sdk/util-dynamodb': ^3.87.0
       '@aws/eslint-config-workbench-core-eslint-custom': workspace:*
       '@aws/workbench-core-audit': workspace:*
@@ -846,11 +846,11 @@ importers:
       '@aws-sdk/client-service-catalog': 3.130.0
       '@aws-sdk/client-ssm': 3.130.0
       '@aws-sdk/client-sts': 3.130.0
-      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/types': 3.208.0
       '@aws-sdk/util-dynamodb': 3.105.0
       '@aws/workbench-core-audit': link:../audit
       '@aws/workbench-core-logging': link:../logging
-      aws-sdk-client-mock: 0.6.2_022fc6104525ff2e9954829bc53982bf
+      aws-sdk-client-mock: 0.6.2_f6f85d66719bb3c537a09c49c4093bc3
       lodash: 4.17.21
       uuid: 8.3.2
     devDependencies:
@@ -885,7 +885,7 @@ importers:
       '@aws-sdk/client-kms': ^3.118.1
       '@aws-sdk/client-s3': ^3.208.0
       '@aws-sdk/client-s3-control': ^3.208.0
-      '@aws-sdk/types': ^3.110.0
+      '@aws-sdk/types': ^3.208.0
       '@aws/eslint-config-workbench-core-eslint-custom': workspace:*
       '@aws/workbench-core-audit': workspace:*
       '@aws/workbench-core-base': workspace:*
@@ -924,7 +924,7 @@ importers:
       '@aws-sdk/client-kms': 3.130.0
       '@aws-sdk/client-s3': 3.208.0
       '@aws-sdk/client-s3-control': 3.208.0
-      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/types': 3.208.0
       '@aws/workbench-core-audit': link:../audit
       '@aws/workbench-core-base': link:../base
       '@aws/workbench-core-logging': link:../logging
@@ -943,7 +943,7 @@ importers:
       '@types/node': 14.18.20
       '@types/triple-beam': 1.3.2
       '@types/uuid': 8.3.4
-      aws-sdk-client-mock: 0.6.2_022fc6104525ff2e9954829bc53982bf
+      aws-sdk-client-mock: 0.6.2_f6f85d66719bb3c537a09c49c4093bc3
       depcheck: 1.4.3
       eslint: 8.16.0
       eslint-plugin-import: 2.26.0_eslint@8.16.0
@@ -1034,7 +1034,7 @@ importers:
       '@aws-sdk/client-service-catalog': ^3.118.1
       '@aws-sdk/client-ssm': ^3.118.1
       '@aws-sdk/client-sts': ^3.118.1
-      '@aws-sdk/types': ^3.110.0
+      '@aws-sdk/types': ^3.208.0
       '@aws-sdk/util-dynamodb': ^3.87.0
       '@aws/eslint-config-workbench-core-eslint-custom': workspace:*
       '@aws/workbench-core-audit': workspace:*
@@ -1096,7 +1096,7 @@ importers:
       md5-file: 5.0.0
       uuid: 8.3.2
     devDependencies:
-      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/types': 3.208.0
       '@aws/eslint-config-workbench-core-eslint-custom': link:../eslint-custom
       '@rushstack/eslint-config': 3.0.0_eslint@8.16.0+typescript@4.7.2
       '@rushstack/heft': 0.47.5
@@ -1107,7 +1107,7 @@ importers:
       '@types/lodash': 4.14.182
       '@types/node': 14.18.20
       '@types/uuid': 8.3.4
-      aws-sdk-client-mock: 0.6.2_022fc6104525ff2e9954829bc53982bf
+      aws-sdk-client-mock: 0.6.2_f6f85d66719bb3c537a09c49c4093bc3
       depcheck: 1.4.3
       eslint: 8.16.0
       eslint-plugin-import: 2.26.0_eslint@8.16.0
@@ -8803,14 +8803,14 @@ packages:
       watchpack: 2.4.0
     dev: true
 
-  /aws-sdk-client-mock/0.6.2_022fc6104525ff2e9954829bc53982bf:
+  /aws-sdk-client-mock/0.6.2_f6f85d66719bb3c537a09c49c4093bc3:
     resolution: {integrity: sha512-0kH1cyfqGogp69vJitzVducx9q691vGOwg7wEG+DUegGlepjaeskp6YG4SJI0y5Vwh3vi+fP27YQTcWllv4GlQ==}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.0.0
       '@aws-sdk/types': ^3.0.0
     dependencies:
       '@aws-sdk/client-s3': 3.208.0
-      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/types': 3.208.0
       '@types/sinon': 10.0.10
       sinon: 11.1.2
       tslib: 2.4.0
