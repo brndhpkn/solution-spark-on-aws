@@ -43,6 +43,11 @@ const adminPermissions: Permission[] = [
   },
   {
     effect: 'ALLOW',
+    action: 'DELETE',
+    subject: 'Dataset'
+  },
+  {
+    effect: 'ALLOW',
     action: 'CREATE',
     subject: 'Environment'
   },
@@ -132,6 +137,11 @@ const researcherPermissions: Permission[] = [
   {
     effect: 'ALLOW',
     action: 'UPDATE',
+    subject: 'Dataset'
+  },
+  {
+    effect: 'ALLOW',
+    action: 'DELETE',
     subject: 'Dataset'
   },
   {

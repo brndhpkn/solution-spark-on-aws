@@ -3,23 +3,28 @@
  *  SPDX-License-Identifier: Apache-2.0
  */
 
-import { resourceTypeToKey, uuidWithLowercasePrefixRegExp } from '@aws/workbench-core-base';
+import { MetadataService, resourceTypeToKey, uuidWithLowercasePrefixRegExp } from '@aws/workbench-core-base';
 import {
   CreateDataSetSchema,
   CreateExternalEndpointSchema,
   DataSetService,
   DataSetsStoragePlugin
 } from '@aws/workbench-core-datasets';
-import Boom from '@hapi/boom';
+import * as Boom from '@hapi/boom';
 import { Request, Response, Router } from 'express';
 import { validate } from 'jsonschema';
 import { wrapAsync } from './errorHandlers';
+import {
+  DatasetEnvironmentMetadata,
+  DatasetEnvironmentMetadataParser
+} from './schemas/datasetEnvironmentMetadataParser';
 import { processValidatorResult } from './validatorHelper';
 
 export function setUpDSRoutes(
   router: Router,
   dataSetService: DataSetService,
-  dataSetStoragePlugin: DataSetsStoragePlugin
+  dataSetStoragePlugin: DataSetsStoragePlugin,
+  metadataService: MetadataService
 ): void {
   // creates new prefix in S3 (assumes S3 bucket exist already)
   router.post(
@@ -83,6 +88,30 @@ export function setUpDSRoutes(
       }
       const ds = await dataSetService.getDataSet(req.params.id);
       res.send(ds);
+    })
+  );
+
+  // Delete dataset
+  router.delete(
+    '/datasets/:datasetId',
+    wrapAsync(async (req: Request, res: Response) => {
+      const checkDatasetDependencies = async (datasetId: string): Promise<void> => {
+        const { data: environments } =
+          await metadataService.listDependentMetadata<DatasetEnvironmentMetadata>(
+            resourceTypeToKey.dataset,
+            datasetId,
+            resourceTypeToKey.environment,
+            DatasetEnvironmentMetadataParser,
+            { pageSize: 1 }
+          );
+
+        if (environments.length) {
+          throw Boom.badRequest(`Cannot delete dataset because it has environments associated with it.`);
+        }
+      };
+
+      await dataSetService.removeDataSet(req.params.datasetId, checkDatasetDependencies);
+      res.status(204).send();
     })
   );
 

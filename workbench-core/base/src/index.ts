@@ -30,6 +30,7 @@ import {
   uuidRegExp,
   uuidRegExpAsString
 } from './utilities/textUtil';
+import { validateAndParse } from './utilities/validatorHelper';
 
 export {
   AuditLogger,
@@ -58,5 +59,6 @@ export {
   getPaginationToken,
   DEFAULT_API_PAGE_SIZE,
   PaginatedResponse,
-  MetadataService
+  MetadataService,
+  validateAndParse
 };
