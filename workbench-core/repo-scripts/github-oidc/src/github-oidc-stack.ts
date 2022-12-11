@@ -3,7 +3,7 @@
  *  SPDX-License-Identifier: Apache-2.0
  */
 
-import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
+import { Aws, CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import {
   Effect,
   FederatedPrincipal,
@@ -35,7 +35,7 @@ export class GitHubOIDCStack extends Stack {
               'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com'
             },
             StringLike: {
-              'token.actions.githubusercontent.com:sub': `repo:${props.gitHubOrg}/${gitHubRepo}:ref:refs/heads/develop`
+              'token.actions.githubusercontent.com:sub': `repo:${props.gitHubOrg}/${gitHubRepo}:*`
             }
           },
           'sts:AssumeRoleWithWebIdentity'
@@ -50,7 +50,7 @@ export class GitHubOIDCStack extends Stack {
             sid: 'iamAccess',
             effect: Effect.ALLOW,
             actions: ['iam:*Role*'],
-            resources: ['*']
+            resources: [`arn:${Aws.PARTITION}:iam::${Aws.ACCOUNT_ID}:role/*`]
           }),
           new PolicyStatement({
             sid: 'DenySelfEscalation',
@@ -74,11 +74,43 @@ export class GitHubOIDCStack extends Stack {
         value: githubOIDCRole.roleArn
       });
 
-      // Suppress AwsSolutions-IAM4[Policy::arn:<AWS::Partition>:iam::aws:policy/AdministratorAccess]: The IAM user, role, or group uses AWS managed policies
+      // Suppress: AwsSolutions-IAM4[Policy::arn:<AWS::Partition>:iam::aws:policy/PowerUserAccess]
       NagSuppressions.addResourceSuppressionsByPath(
         this,
         '/aws-solutions-GitHubOIDCStack/aws-solutions-solution-spark-on-aws-GitHub-OIDC-Role/Resource',
-        [{ id: 'AwsSolutions-IAM4', reason: 'Admin access for deployment and integration test' }]
+        [
+          {
+            id: 'AwsSolutions-IAM4',
+            reason: 'I am ok to use PowerUserAccess for this role',
+            appliesTo: ['Policy::arn:<AWS::Partition>:iam::aws:policy/PowerUserAccess']
+          }
+        ]
+      );
+
+      // Suppress: AwsSolutions-IAM5[Action::iam:*Role*]
+      NagSuppressions.addResourceSuppressionsByPath(
+        this,
+        '/aws-solutions-GitHubOIDCStack/aws-solutions-solution-spark-on-aws-GitHubOIDCCustomManagedPolicy/Resource',
+        [
+          {
+            id: 'AwsSolutions-IAM5',
+            reason: 'I am ok to use iam:*Role* Action for this role',
+            appliesTo: ['Action::iam:*Role*']
+          }
+        ]
+      );
+
+      // Suppress: AwsSolutions-IAM5[Resource::arn:<AWS::Partition>:iam::<AWS::AccountId>:role/*]
+      NagSuppressions.addResourceSuppressionsByPath(
+        this,
+        '/aws-solutions-GitHubOIDCStack/aws-solutions-solution-spark-on-aws-GitHubOIDCCustomManagedPolicy/Resource',
+        [
+          {
+            id: 'AwsSolutions-IAM5',
+            reason: 'I am ok to use wilcard for this resource',
+            appliesTo: ['Resource::arn:<AWS::Partition>:iam::<AWS::AccountId>:role/*']
+          }
+        ]
       );
     });
   }
