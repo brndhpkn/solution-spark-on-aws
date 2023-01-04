@@ -3,45 +3,27 @@
  *  SPDX-License-Identifier: Apache-2.0
  */
 
-import { z } from 'zod';
-import { IdentityPermission, IdentityTypeParser } from './identityPermission';
+import { IdentityPermission, IdentityType } from './identityPermission';
 
-// eslint-disable-next-line @rushstack/typedef-var
-export const GetIdentityPermissionsByIdentityRequestParser = z
-  .object({
-    /**
-     * {@link IdentityType}
-     */
-    identityType: IdentityTypeParser,
-    /**
-     * Identity id associated to the {@link IdentityPermission}s
-     */
-    identityId: z.string(),
-    /**
-     * Pagination token to retrieve the next set of results
-     */
-    paginationToken: z.string().optional()
-  })
-  .strict();
 /**
  * Request object for GetIdentityPermissionsByIdentity
  */
-export type GetIdentityPermissionsByIdentityRequest = z.infer<
-  typeof GetIdentityPermissionsByIdentityRequestParser
->;
-
+export interface GetIdentityPermissionsByIdentityRequest {
+  /**
+   * {@link IdentityType}
+   */
+  identityType: IdentityType;
+  /**
+   * Identity id associated to the {@link IdentityPermission}s
+   */
+  identityId: string;
+}
 /**
  * Response object for GetIdentityPermissionsByIdentity
  */
 export interface GetIdentityPermissionsByIdentityResponse {
-  data: {
-    /**
-     * An array of {@link IdentityPermission} associated to the identity
-     */
-    identityPermissions: IdentityPermission[];
-  };
   /**
-   * Pagination token to retrieve the next set of results, empty if there are no more results left
+   * An array of {@link IdentityPermission} associated to the identity
    */
-  paginationToken?: string;
+  identityPermissions: IdentityPermission[];
 }

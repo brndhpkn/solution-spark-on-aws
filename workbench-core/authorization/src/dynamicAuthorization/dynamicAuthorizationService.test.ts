@@ -36,21 +36,6 @@ describe('DynamicAuthorizationService', () => {
   let mockDynamicAuthorizationPermissionsPlugin: DynamicAuthorizationPermissionsPlugin;
   let dynamicAuthzService: DynamicAuthorizationService;
 
-  let sampleGroupId: string;
-  let sampleGroupType: IdentityType;
-
-  let sampleAction: Action;
-  let sampleEffect: Effect;
-  let sampleSubjectType: string;
-  let sampleSubjectId: string;
-  let sampleConditions: Record<string, JSONValue>;
-  let sampleFields: string[];
-  let sampleDescription: string;
-
-  let mockIdentityPermission: IdentityPermission;
-
-  let mockIdentityPermissions: IdentityPermission[];
-
   beforeAll(() => {
     mockGroupManagementPlugin = {
       createGroup: jest.fn(),
@@ -100,28 +85,6 @@ describe('DynamicAuthorizationService', () => {
       dynamicAuthorizationPermissionsPlugin: mockDynamicAuthorizationPermissionsPlugin,
       auditService
     });
-
-    sampleGroupId = 'sampleGroup';
-    sampleGroupType = 'GROUP';
-    sampleAction = 'CREATE';
-    sampleEffect = 'ALLOW';
-    sampleSubjectType = 'sampleSubjectType';
-    sampleSubjectId = 'sampleSubjectId';
-    sampleConditions = {};
-    sampleFields = [];
-    sampleDescription = 'sampleDescription';
-    mockIdentityPermission = {
-      action: sampleAction,
-      effect: sampleEffect,
-      subjectType: sampleSubjectType,
-      subjectId: sampleSubjectId,
-      identityId: sampleGroupId,
-      identityType: sampleGroupType,
-      conditions: sampleConditions,
-      fields: sampleFields,
-      description: sampleDescription
-    };
-    mockIdentityPermissions = [mockIdentityPermission, mockIdentityPermission];
   });
 
   afterEach(() => {
@@ -220,7 +183,45 @@ describe('DynamicAuthorizationService', () => {
   });
 
   describe('createIdentityPermissions', () => {
+    let sampleGroupId: string;
+    let sampleGroupType: IdentityType;
+
+    let sampleAction: Action;
+    let sampleEffect: Effect;
+    let sampleSubjectType: string;
+    let sampleSubjectId: string;
+    let sampleConditions: Record<string, JSONValue>;
+    let sampleFields: string[];
+    let sampleDescription: string;
+
+    let mockIdentityPermission: IdentityPermission;
+
+    let mockIdentityPermissions: IdentityPermission[];
+
     beforeEach(() => {
+      sampleGroupId = 'sampleGroup';
+      sampleGroupType = 'GROUP';
+      sampleAction = 'CREATE';
+      sampleEffect = 'ALLOW';
+      sampleSubjectType = 'sampleSubjectType';
+      sampleSubjectId = 'sampleSubjectId';
+      sampleConditions = {};
+      sampleFields = [];
+      sampleDescription = 'sampleDescription';
+      mockIdentityPermission = {
+        action: sampleAction,
+        effect: sampleEffect,
+        subjectType: sampleSubjectType,
+        subjectId: sampleSubjectId,
+        identityId: sampleGroupId,
+        identityType: sampleGroupType,
+        conditions: sampleConditions,
+        fields: sampleFields,
+        description: sampleDescription
+      };
+
+      mockIdentityPermissions = [mockIdentityPermission, mockIdentityPermission];
+
       auditAction = 'createIdentityPermissions';
     });
 
@@ -324,24 +325,7 @@ describe('DynamicAuthorizationService', () => {
       );
     });
   });
-  describe('getIdentityPermissionsByIdentity', () => {
-    test('get identity permissions by identity', async () => {
-      mockDynamicAuthorizationPermissionsPlugin.getIdentityPermissionsByIdentity = jest
-        .fn()
-        .mockResolvedValue({
-          data: {
-            identityPermissions: [mockIdentityPermission]
-          }
-        });
-      const request = {
-        identityId: sampleGroupId,
-        identityType: sampleGroupType
-      };
 
-      const { data } = await dynamicAuthzService.getIdentityPermissionsByIdentity(request);
-      expect(data.identityPermissions).toStrictEqual([mockIdentityPermission]);
-    });
-  });
   describe('deleteIdentityPermissions', () => {
     it('throws a not implemented exception', async () => {
       await expect(

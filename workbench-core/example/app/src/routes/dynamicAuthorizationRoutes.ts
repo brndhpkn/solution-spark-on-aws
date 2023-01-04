@@ -12,9 +12,7 @@ import {
   isIdentityPermissionCreationError,
   CreateIdentityPermissionsRequest,
   CreateIdentityPermissionsRequestParser,
-  isUserNotFoundError,
-  GetIdentityPermissionsByIdentityRequest,
-  GetIdentityPermissionsByIdentityRequestParser
+  isUserNotFoundError
 } from '@aws/workbench-core-authorization';
 import { validateAndParse } from '@aws/workbench-core-base';
 import * as Boom from '@hapi/boom';
@@ -171,7 +169,7 @@ export function setUpDynamicAuthorizationRoutes(router: Router, service: Dynamic
   );
 
   router.post(
-    '/authorization/permissions',
+    '/authorization/identity-permissions',
     wrapAsync(async (req: Request, res: Response) => {
       try {
         const authenticatedUser = res.locals.user;
@@ -183,7 +181,9 @@ export function setUpDynamicAuthorizationRoutes(router: Router, service: Dynamic
           }
         );
 
-        const { data } = await service.createIdentityPermissions(validatedRequest);
+        const { data } = await service.createIdentityPermissions({
+          ...validatedRequest
+        });
         res.status(201).send(data);
       } catch (err) {
         if (isGroupNotFoundError(err)) throw Boom.badRequest('One or more groups are not found');
@@ -193,17 +193,6 @@ export function setUpDynamicAuthorizationRoutes(router: Router, service: Dynamic
           throw Boom.badRequest('One or more permissions already exist');
         throw err;
       }
-    })
-  );
-  router.get(
-    '/authorization/permissions/identity',
-    wrapAsync(async (req: Request, res: Response) => {
-      const validatedRequest = validateAndParse<GetIdentityPermissionsByIdentityRequest>(
-        GetIdentityPermissionsByIdentityRequestParser,
-        req.query
-      );
-      const { data } = await service.getIdentityPermissionsByIdentity(validatedRequest);
-      res.status(201).send(data);
     })
   );
 }
