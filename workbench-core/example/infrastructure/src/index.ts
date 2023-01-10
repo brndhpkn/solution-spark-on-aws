@@ -32,4 +32,4 @@ new AppRegister(exampleStack, exampleStack.stackId, {
   appRegistryApplicationName: 'ExampleApp'
 });
 
-// Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
+Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
