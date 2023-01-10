@@ -31,7 +31,8 @@ export class WorkbenchSecureS3Bucket extends Construct {
       versioned: true,
       enforceSSL: true,
       accessControl: BucketAccessControl.LOG_DELIVERY_WRITE,
-      serverAccessLogsPrefix: props?.serverAccessLogsPrefix ?? `${id.toLowerCase()}-access-log`
+      serverAccessLogsPrefix: props?.serverAccessLogsPrefix ?? `${id.toLowerCase()}-access-log`,
+      bucketKeyEnabled: true
     };
 
     this.bucket = new Bucket(this, `${id}-Bucket`, secureS3BucketProps);

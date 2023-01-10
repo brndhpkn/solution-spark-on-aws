@@ -34,7 +34,13 @@ import {
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Alias, CfnFunction, Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { CfnLogGroup, LogGroup } from 'aws-cdk-lib/aws-logs';
-import { Bucket, CfnBucket } from 'aws-cdk-lib/aws-s3';
+import {
+  BlockPublicAccess,
+  Bucket,
+  BucketAccessControl,
+  BucketEncryption,
+  CfnBucket
+} from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
@@ -348,17 +354,20 @@ export class ExampleStack extends Stack {
   }
 
   private _createAccessLogsBucket(bucketNameOutput: string, encryptionKey: Key): Bucket {
-    const exampleS3AccessLogsBucket = new WorkbenchSecureS3Bucket(this, 'ExampleS3AccessLogsBucket', {
-      encryptionKey: encryptionKey,
+    const exampleS3AccessLogsBucket = new Bucket(this, 'ExampleS3AccessLogsBucket', {
+      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+      versioned: true,
+      enforceSSL: true,
+      encryption: BucketEncryption.S3_MANAGED,
       removalPolicy: RemovalPolicy.DESTROY
     });
 
-    exampleS3AccessLogsBucket.bucket.addToResourcePolicy(
+    exampleS3AccessLogsBucket.addToResourcePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         principals: [new ServicePrincipal('logging.s3.amazonaws.com')],
         actions: ['s3:PutObject'],
-        resources: [`${exampleS3AccessLogsBucket.bucket.bucketArn}/${this._s3AccessLogsPrefix}*`],
+        resources: [`${exampleS3AccessLogsBucket.bucketArn}/${this._s3AccessLogsPrefix}*`],
         conditions: {
           StringEquals: {
             'aws:SourceAccount': Aws.ACCOUNT_ID
@@ -368,7 +377,7 @@ export class ExampleStack extends Stack {
     );
 
     //CFN NAG Suppression
-    const exampleS3AccessLogsBucketNode = exampleS3AccessLogsBucket.bucket.node.defaultChild as CfnBucket;
+    const exampleS3AccessLogsBucketNode = exampleS3AccessLogsBucket.node.defaultChild as CfnBucket;
     exampleS3AccessLogsBucketNode.addMetadata('cfn_nag', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       rules_to_suppress: [
@@ -382,7 +391,7 @@ export class ExampleStack extends Stack {
     });
 
     new CfnOutput(this, bucketNameOutput, {
-      value: exampleS3AccessLogsBucket.bucket.bucketName,
+      value: exampleS3AccessLogsBucket.bucketName,
       exportName: bucketNameOutput
     });
 
@@ -396,7 +405,7 @@ export class ExampleStack extends Stack {
       }
     ]);
 
-    return exampleS3AccessLogsBucket.bucket;
+    return exampleS3AccessLogsBucket;
   }
 
   private _createRestApi(exampleLambda: Function): void {
