@@ -33,6 +33,16 @@
     "test": "rushx test:only && rushx make-badges",
     "test:only": "heft test --clean --no-build"
   },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "testRegex": ".test.ts",
+    "transform": {
+      "\\.(ts)$": "ts-jest"
+    }
+  },
   "dependencies": {
     "@aws-sdk/client-cloudformation": "^3.212.0",
     "@aws-sdk/client-dynamodb": "^3.212.0",
