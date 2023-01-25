@@ -1,11 +1,4 @@
 *                                                     @aws-solutions/sb-ma-foundation
-common/config/rush/browser-approved-packages.json
-common/config/rush/nonbrowser-approved-packages.json
-./**/cache/config.json
-.gitallowed
-.gitattributes
-.gitignore
-common/changes/
 rush.json                                             @aws-solutions/sb-solution-spark-developers
 common/config/rush/pnpm-lock.yaml                     @aws-solutions/sb-solution-spark-developers
 .viperlightignore                                     @aws-solutions/sb-solution-spark-developers
@@ -26,3 +19,10 @@ workbench-core/accounts-ui                            @aws-solutions/sb-ma-swb
 common/changes/@aws/workbench-core-accounts-ui        @aws-solutions/sb-ma-swb
 workbench-core/datasets-ui                            @aws-solutions/sb-ma-swb
 common/changes/@aws/workbench-core-datasets-ui        @aws-solutions/sb-ma-swb
+common/config/rush/browser-approved-packages.json
+common/config/rush/nonbrowser-approved-packages.json
+**/cache/config.json
+.gitallowed
+.gitattributes
+.gitignore
+common/changes/
