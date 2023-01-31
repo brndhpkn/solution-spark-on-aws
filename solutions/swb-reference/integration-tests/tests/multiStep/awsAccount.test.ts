@@ -48,7 +48,7 @@ describe('multiStep awsAccount integration test', () => {
         pk: hostingAwsAccountId,
         sk: `${resourceTypeToKey.account}#${accountId}`
       };
-      await dynamoDbService.delete(awsAccountItemKey).execute();
+      await dynamoDbService.deleteExecuteAndFormat({ key: awsAccountItemKey });
     }
 
     const createResponse = await adminSession.resources.accounts.create(createAccountParams, false);

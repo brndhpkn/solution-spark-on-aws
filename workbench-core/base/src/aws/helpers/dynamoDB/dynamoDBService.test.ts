@@ -247,7 +247,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key).getParams();
+      const generatedParams = dbService.delete({ key }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -263,7 +263,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -279,7 +279,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -295,7 +295,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -311,7 +311,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -327,7 +327,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -343,7 +343,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -359,7 +359,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -375,7 +375,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -391,7 +391,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);
@@ -407,7 +407,7 @@ describe('DynamoDBService', () => {
       };
 
       // OPERATE
-      const generatedParams = dbService.delete(key, developerParams).getParams();
+      const generatedParams = dbService.delete({ key, params: developerParams }).getParams();
 
       // CHECK
       expect(generatedParams).toEqual(expectedParams);

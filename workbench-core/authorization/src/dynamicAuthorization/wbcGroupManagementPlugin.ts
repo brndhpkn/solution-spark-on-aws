@@ -226,7 +226,7 @@ export class WBCGroupManagementPlugin implements GroupManagementPlugin {
           break;
         }
         case 'deleted': {
-          const deleter = this._ddbService.delete(key);
+          const deleter = this._ddbService.delete({ key });
           deleter
             .condition('attribute_exists(pk) AND #status = :oldStatus')
             .names({ '#status': 'status' })

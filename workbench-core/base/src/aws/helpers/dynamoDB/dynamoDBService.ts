@@ -14,6 +14,8 @@ import BatchEdit from './batchEdit';
 import { MAX_GET_ITEMS_SIZE } from './ddbUtil';
 import Deleter from './deleter';
 import Getter from './getter';
+import { DeleteParams } from './interfaces/deleteParams';
+import { DeleteUnmarshalledOutput } from './interfaces/deleteUnmarshalledOutput';
 import { UpdateParams } from './interfaces/updateParams';
 import { UpdateUnmarshalledOutput } from './interfaces/updateUnmarshalledOutput';
 import Query from './query';
@@ -403,6 +405,24 @@ export default class DynamoDBService {
   }
 
   /**
+   * Places a DDB Delete call and formats the response.
+   *
+   * @param deleteParams - {@link DeleteParams} object to pass to the delete request
+   * @returns a {@link DeleteUnmarshalledOutput} item where Attributes is unmarshalled
+   */
+  public async deleteExecuteAndFormat(deleteParams: DeleteParams): Promise<DeleteUnmarshalledOutput> {
+    const result = await this.delete(deleteParams).execute();
+
+    const unmarshalledResult = {
+      Attributes: result.Attributes ? unmarshall(result.Attributes) : undefined,
+      ConsumedCapacity: result.ConsumedCapacity || undefined,
+      ItemCollectionMetrics: result.ItemCollectionMetrics || undefined
+    };
+
+    return unmarshalledResult;
+  }
+
+  /**
    * Creates a Deleter to do single delete item operations on a DynamoDB table.
    *
    * @param key - object of key to delete
@@ -421,17 +441,8 @@ export default class DynamoDBService {
    * const dataFromCondDelete = await deleter.condition('attribute_not_exists(DONOTDELETE)').execute();
    * ```
    */
-  public delete(
-    key: { [key: string]: unknown },
-    params?: {
-      condition?: string;
-      names?: { [key: string]: string };
-      values?: { [key: string]: unknown };
-      return?: 'NONE' | 'ALL_OLD';
-      capacity?: 'INDEXES' | 'TOTAL' | 'NONE';
-      metrics?: 'NONE' | 'SIZE';
-    }
-  ): Deleter {
+  public delete(deleteParams: DeleteParams): Deleter {
+    const { key, params } = deleteParams;
     let deleter = new Deleter({ region: this._awsRegion }, this._tableName, marshall(key));
     if (params) {
       if (params.condition) {

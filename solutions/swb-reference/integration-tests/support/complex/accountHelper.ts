@@ -32,8 +32,12 @@ export class AccountHelper {
   }
 
   public async deleteDdbRecords(accountId: string, awsAccountId: string): Promise<void> {
-    await this._awsSdk.helpers.ddb.delete({ pk: `ACC#${accountId}`, sk: `ACC#${accountId}` }).execute();
-    await this._awsSdk.helpers.ddb.delete({ pk: `AWSACC#${awsAccountId}`, sk: `ACC#${accountId}` }).execute();
+    await this._awsSdk.helpers.ddb.deleteExecuteAndFormat({
+      key: { pk: `ACC#${accountId}`, sk: `ACC#${accountId}` }
+    });
+    await this._awsSdk.helpers.ddb.deleteExecuteAndFormat({
+      key: { pk: `AWSACC#${awsAccountId}`, sk: `ACC#${accountId}` }
+    });
   }
 
   public async verifyBusAllowsAccount(awsAccountId: string): Promise<boolean> {

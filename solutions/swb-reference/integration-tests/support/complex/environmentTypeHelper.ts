@@ -32,6 +32,8 @@ export class EnvironmentTypeHelper {
   }
 
   public async deleteEnvironmentType(envTypeId: string): Promise<void> {
-    await this._awsSdk.helpers.ddb.delete({ pk: `ET#${envTypeId}`, sk: `ET#${envTypeId}` }).execute();
+    await this._awsSdk.helpers.ddb.deleteExecuteAndFormat({
+      key: { pk: `ET#${envTypeId}`, sk: `ET#${envTypeId}` }
+    });
   }
 }

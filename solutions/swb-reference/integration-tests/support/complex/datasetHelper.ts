@@ -36,9 +36,9 @@ export class DatasetHelper {
   }
 
   public async deleteDdbRecords(dataSetId: string): Promise<void> {
-    await this._awsSdk.helpers.ddb
-      .delete({ pk: `DATASET#${dataSetId}`, sk: `DATASET#${dataSetId}` })
-      .execute();
+    await this._awsSdk.helpers.ddb.deleteExecuteAndFormat({
+      key: { pk: `DATASET#${dataSetId}`, sk: `DATASET#${dataSetId}` }
+    });
     const data = await this._awsSdk.helpers.ddb
       .query({
         key: {
@@ -53,7 +53,7 @@ export class DatasetHelper {
     // Tests are not expected to create more than a couple of endpoints per DS max, so no support needed for pagintated query results
     await Promise.all(
       _.map(endpoints, async (endpoint) => {
-        await this._awsSdk.helpers.ddb.delete({ pk: endpoint.pk, sk: endpoint.sk }).execute();
+        await this._awsSdk.helpers.ddb.deleteExecuteAndFormat({ key: { pk: endpoint.pk, sk: endpoint.sk } });
       })
     );
   }

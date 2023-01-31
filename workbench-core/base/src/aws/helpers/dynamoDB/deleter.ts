@@ -9,7 +9,6 @@ import {
   DeleteItemCommandOutput,
   DynamoDB
 } from '@aws-sdk/client-dynamodb';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
 import _ from 'lodash';
 
 /**
@@ -210,9 +209,9 @@ class Deleter {
    */
   public async execute(): Promise<DeleteItemCommandOutput> {
     const result = await this._ddb.deleteItem(this._params);
-    if (result.Attributes) {
-      result.Attributes = unmarshall(result.Attributes);
-    }
+    // if (result.Attributes) {
+    //   result.Attributes = unmarshall(result.Attributes);
+    // }
 
     return result;
   }

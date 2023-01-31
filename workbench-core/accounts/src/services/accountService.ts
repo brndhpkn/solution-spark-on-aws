@@ -73,7 +73,7 @@ export default class AccountService {
    */
   public async delete(accountId: string): Promise<void> {
     const accountKey = buildDynamoDBPkSk(accountId, resourceTypeToKey.account);
-    await this._dynamoDBService.delete(accountKey).execute();
+    await this._dynamoDBService.deleteExecuteAndFormat({ key: accountKey });
   }
 
   /**
