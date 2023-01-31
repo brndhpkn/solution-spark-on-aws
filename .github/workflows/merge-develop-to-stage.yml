@@ -4,10 +4,7 @@
 #
 
 name: Merge-develop-to-stage
-on:
-  push:
-    branches:
-      - 'develop'
+on: [‘pull_request’]
 
 jobs:
   readme-commit:
