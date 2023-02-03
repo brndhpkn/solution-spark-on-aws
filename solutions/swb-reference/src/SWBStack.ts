@@ -23,7 +23,6 @@ import {
 } from 'aws-cdk-lib/aws-apigateway';
 import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager';
 import { AttributeType, BillingMode, Table, TableEncryption } from 'aws-cdk-lib/aws-dynamodb';
-import { Repository } from 'aws-cdk-lib/aws-ecr';
 import {
   ApplicationTargetGroup,
   ListenerCondition,
@@ -102,7 +101,6 @@ export class SWBStack extends Stack {
       STATUS_HANDLER_ARN_OUTPUT_KEY,
       SC_PORTFOLIO_NAME,
       ALLOWED_ORIGINS,
-      UI_CLIENT_URL,
       COGNITO_DOMAIN,
       USER_POOL_CLIENT_NAME,
       USER_POOL_NAME,
@@ -115,7 +113,6 @@ export class SWBStack extends Stack {
       MAIN_ACCT_ALB_ARN_OUTPUT_KEY,
       SWB_DOMAIN_NAME_OUTPUT_KEY,
       MAIN_ACCT_ALB_LISTENER_ARN_OUTPUT_KEY,
-      ECR_REPOSITORY_NAME_OUTPUT_KEY,
       VPC_ID_OUTPUT_KEY,
       ALB_SUBNET_IDS,
       ECS_SUBNET_IDS,
@@ -123,7 +120,6 @@ export class SWBStack extends Stack {
       ECS_SUBNET_AZS_OUTPUT_KEY,
       HOSTED_ZONE_ID,
       DOMAIN_NAME,
-      USE_CLOUD_FRONT,
       ALB_INTERNET_FACING,
       FIELDS_TO_MASK_WHEN_AUDITING
     } = getConstants();
@@ -183,7 +179,7 @@ export class SWBStack extends Stack {
       MAIN_ACCT_ID
     };
 
-    this._createInitialOutputs(MAIN_ACCT_ID, AWS_REGION, AWS_REGION_SHORT_NAME, UI_CLIENT_URL);
+    this._createInitialOutputs(MAIN_ACCT_ID, AWS_REGION, AWS_REGION_SHORT_NAME);
     this._s3AccessLogsPrefix = S3_ACCESS_BUCKET_PREFIX;
     this._swbDomainNameOutputKey = SWB_DOMAIN_NAME_OUTPUT_KEY;
     this._mainAccountLoadBalancerListenerArnOutputKey = MAIN_ACCT_ALB_LISTENER_ARN_OUTPUT_KEY;
@@ -263,37 +259,20 @@ export class SWBStack extends Stack {
     const workflow = new Workflow(this);
     workflow.createSSMDocuments();
 
-    new CfnOutput(this, 'useCloudFront', {
-      value: String(USE_CLOUD_FRONT)
+    const swbVpc = this._createVpc(VPC_ID, ALB_SUBNET_IDS, ECS_SUBNET_IDS);
+    new CfnOutput(this, VPC_ID_OUTPUT_KEY, {
+      value: swbVpc.vpc.vpcId
     });
 
-    if (!USE_CLOUD_FRONT) {
-      const swbVpc = this._createVpc(VPC_ID, ALB_SUBNET_IDS, ECS_SUBNET_IDS);
-      new CfnOutput(this, VPC_ID_OUTPUT_KEY, {
-        value: swbVpc.vpc.vpcId
-      });
+    new CfnOutput(this, ECS_SUBNET_IDS_OUTPUT_KEY, {
+      value: (swbVpc.ecsSubnetSelection.subnets?.map((subnet) => subnet.subnetId) ?? []).join(',')
+    });
 
-      new CfnOutput(this, ECS_SUBNET_IDS_OUTPUT_KEY, {
-        value: (swbVpc.ecsSubnetSelection.subnets?.map((subnet) => subnet.subnetId) ?? []).join(',')
-      });
+    new CfnOutput(this, ECS_SUBNET_AZS_OUTPUT_KEY, {
+      value: (swbVpc.vpc.availabilityZones?.map((az) => az) ?? []).join(',')
+    });
 
-      new CfnOutput(this, ECS_SUBNET_AZS_OUTPUT_KEY, {
-        value: (swbVpc.vpc.availabilityZones?.map((az) => az) ?? []).join(',')
-      });
-
-      this._createLoadBalancer(swbVpc, apiGwUrl, DOMAIN_NAME, HOSTED_ZONE_ID, ALB_INTERNET_FACING);
-
-      const repository = new Repository(this, 'Repository', {
-        imageScanOnPush: true
-      });
-      new CfnOutput(this, ECR_REPOSITORY_NAME_OUTPUT_KEY, {
-        value: repository.repositoryName
-      });
-    } else {
-      new CfnOutput(this, 'apiUrlOutput', {
-        value: apiGwUrl
-      });
-    }
+    this._createLoadBalancer(swbVpc, apiGwUrl, DOMAIN_NAME, HOSTED_ZONE_ID, ALB_INTERNET_FACING);
   }
 
   private _createVpc(vpcId: string, albSubnetIds: string[], ecsSubnetIds: string[]): SWBVpc {
@@ -389,12 +368,7 @@ export class SWBStack extends Stack {
     });
   }
 
-  private _createInitialOutputs(
-    accountId: string,
-    awsRegion: string,
-    awsRegionName: string,
-    uiClientURL: string
-  ): void {
+  private _createInitialOutputs(accountId: string, awsRegion: string, awsRegionName: string): void {
     new CfnOutput(this, 'accountId', {
       value: accountId
     });
@@ -403,9 +377,6 @@ export class SWBStack extends Stack {
     });
     new CfnOutput(this, 'awsRegionShortName', {
       value: awsRegionName
-    });
-    new CfnOutput(this, 'uiClientURL', {
-      value: uiClientURL
     });
   }
 
