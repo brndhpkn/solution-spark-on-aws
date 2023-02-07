@@ -16,6 +16,9 @@ import { DataSetPlugin } from './dataSets/dataSetPlugin';
 import { DataSetStoragePlugin } from './dataSets/dataSetStoragePlugin';
 import { GetAccessPermissionRequest } from './dataSets/getAccessPermissionRequestParser';
 import { PermissionsResponse, PermissionsResponseParser } from './dataSets/permissionsResponseParser';
+import { DatabaseError } from './errors/databaseError';
+import { NoKeyExistsError } from './errors/noKeyExistsError';
+import { NonUniqueKeyError } from './errors/nonUniqueKeyError';
 import { generateRouter } from './generateRouter';
 import { CreateKeyPairRequest } from './keyPairs/createKeyPairRequest';
 import { CreateKeyPairResponse } from './keyPairs/createKeyPairResponse';
@@ -24,7 +27,6 @@ import { GetKeyPairRequest } from './keyPairs/getKeyPairRequest';
 import { GetKeyPairResponse } from './keyPairs/getKeyPairResponse';
 import { KeyPair, KeyPairParser } from './keyPairs/keyPair';
 import { KeyPairPlugin } from './keyPairs/keyPairPlugin';
-import { ListKeyPairsRequest } from './keyPairs/listKeyPairsRequest';
 import { SendPublicKeyRequest } from './keyPairs/sendPublicKeyRequest';
 import { SendPublicKeyResponse } from './keyPairs/sendPublicKeyResponse';
 import {
@@ -60,7 +62,9 @@ export {
   KeyPair,
   KeyPairParser,
   KeyPairPlugin,
-  ListKeyPairsRequest,
   SendPublicKeyRequest,
-  SendPublicKeyResponse
+  SendPublicKeyResponse,
+  DatabaseError,
+  NonUniqueKeyError,
+  NoKeyExistsError
 };
