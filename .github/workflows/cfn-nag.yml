@@ -26,7 +26,7 @@ jobs:
         run: |
           cd solutions/swb-reference
           node ../../common/scripts/install-run-rushx.js compile
-          STAGE=testEnv node ../../common/scripts/install-run-rushx.js cdk synth
+          STAGE=testEnv node ../../common/scripts/install-run-rushx.js cdk-synth
 
       - name: cdk synth example
         run: |

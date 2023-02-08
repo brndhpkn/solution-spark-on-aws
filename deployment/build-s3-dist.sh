@@ -94,7 +94,7 @@ do_replace()
 create_template_json() 
 {
     # Run 'cdk synth' to generate raw solution outputs
-    do_cmd rushx cdk context --clear && STAGE=$STAGE rushx cdk synth -q --output=$staging_dist_dir
+    do_cmd rushx cdk context --clear && STAGE=$STAGE rushx cdk-synth -q --output=$staging_dist_dir
 
     # Remove unnecessary output files
     do_cmd cd $staging_dist_dir

@@ -272,7 +272,14 @@ export class SWBStack extends Stack {
       value: (swbVpc.vpc.availabilityZones?.map((az) => az) ?? []).join(',')
     });
 
-    this._createLoadBalancer(swbVpc, apiGwUrl, DOMAIN_NAME, HOSTED_ZONE_ID, ALB_INTERNET_FACING);
+    this._createLoadBalancer(
+      swbVpc,
+      apiGwUrl,
+      DOMAIN_NAME,
+      HOSTED_ZONE_ID,
+      ALB_INTERNET_FACING,
+      this._accessLogsBucket
+    );
   }
 
   private _createVpc(vpcId: string, albSubnetIds: string[], ecsSubnetIds: string[]): SWBVpc {
@@ -290,12 +297,14 @@ export class SWBStack extends Stack {
     apiGwUrl: string,
     domainName: string,
     hostedZoneId: string,
-    internetFacing: boolean
+    internetFacing: boolean,
+    accessLogsBucket: Bucket
   ): void {
     const alb = new SWBApplicationLoadBalancer(this, 'SWBApplicationLoadBalancer', {
       vpc: swbVpc.vpc,
       subnets: swbVpc.albSubnetSelection,
-      internetFacing
+      internetFacing,
+      accessLogsBucket
     });
 
     const zone = HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
@@ -1140,34 +1149,14 @@ export class SWBStack extends Stack {
       }
     });
 
-    let childMetadataNode = API.node.findChild('DeploymentStage.dev').node.defaultChild as CfnResource;
+    const childMetadataNode = API.node.findChild('DeploymentStage.dev').node.defaultChild as CfnResource;
     childMetadataNode.addMetadata('cfn_nag', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       rules_to_suppress: [
         {
           id: 'W64',
           reason: 'TODO:triage resources should be associated with an AWS::ApiGateway::UsagePlan.'
-        }
-      ]
-    });
-
-    childMetadataNode = API.node.findChild('Default').node.findChild('ANY').node.defaultChild as CfnResource;
-    childMetadataNode.addMetadata('cfn_nag', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      rules_to_suppress: [
-        {
-          id: 'W59',
-          reason:
-            "TODO:triage should not have AuthorizationType set to 'NONE' unless it is of HttpMethod: OPTIONS.."
-        }
-      ]
-    });
-
-    childMetadataNode = API.node.findChild('Default').node.findChild('{proxy+}').node.findChild('ANY').node
-      .defaultChild as CfnResource;
-    childMetadataNode.addMetadata('cfn_nag', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      rules_to_suppress: [
+        },
         {
           id: 'W59',
           reason:
