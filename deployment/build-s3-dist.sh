@@ -94,12 +94,7 @@ do_replace()
 create_template_json() 
 {
     # Run 'cdk synth' to generate raw solution outputs
-    do_cmd rushx cdk context --clear && STAGE=$STAGE rushx cdk-synth -q --output=$staging_dist_dir
-
-    # Remove unnecessary output files
-    do_cmd cd $staging_dist_dir
-    # ignore return code - can be non-zero if any of these does not exist
-    rm tree.json manifest.json cdk.out
+    do_cmd rushx cdk context --clear && STAGE=$STAGE rushx cdk synth -q --output=$staging_dist_dir
 
     # Move outputs from staging to template_dist_dir
     echo "Move outputs from staging to template_dist_dir"

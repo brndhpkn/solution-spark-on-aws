@@ -6,10 +6,15 @@
 import { Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { ApplicationLoadBalancer } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { SWBApplicationLoadBalancer, SWBApplicationLoadBalancerProps } from './SWBApplicationLoadBalancer';
 
 describe('SWBApplicationLoadBalancer tests', () => {
+  beforeAll(() => {
+    jest.spyOn(ApplicationLoadBalancer.prototype, 'logAccessLogs').mockImplementation();
+  });
+
   it('has the correct alb properties when given no subnets', () => {
     const stack = new Stack();
     const swbApplicationLoadBalancerProps: SWBApplicationLoadBalancerProps = {
