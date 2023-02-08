@@ -307,15 +307,6 @@ else
     exit 1
 fi
 
-do_cmd cd $source_dir/swb-ui/infrastructure
-
-if fn_exists create_template_${template_format}; then
-    create_template_${template_format}
-else
-    echo "Invalid setting for \$template_format: $template_format"
-    exit 255
-fi
-
 echo "------------------------------------------------------------------------------"
 echo "${bold}[Packing] Template artifacts${normal}"
 echo "------------------------------------------------------------------------------"
