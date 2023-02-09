@@ -32,9 +32,6 @@ phases:
 
 artifacts:
   files:
-    - common/**/*
-    - solutions/**/*
-    - workbench-core/**/*
     - deployment/**/*
     - .gitignore
     - sonar-project.properties
