@@ -96,6 +96,18 @@ create_template_json()
     # Run 'cdk synth' to generate raw solution outputs
     do_cmd rushx cdk context --clear && STAGE=$STAGE rushx cdk synth -q --output=$staging_dist_dir
 
+    echo "Removing staging directory, if exists"
+    # Remove unnecessary output files
+    do_cmd cd $staging_dist_dir
+    # ignore return code - can be non-zero if any of these does not exist
+    echo "Removing output files if they exist"
+    rm tree.json manifest.json cdk.out
+
+    echo "Check folders in staging_dist_dir (<codebuildID>/src/deployment/staging)"
+    do_cmd ls -l $staging_dist_dir
+    echo "Check all contents of staging_dist_dir (<codebuildID>/src/deployment/staging)"
+    do_cmd ls -R $staging_dist_dir
+
     # Move outputs from staging to template_dist_dir
     echo "Move outputs from staging to template_dist_dir"
     do_cmd mv $staging_dist_dir/*.template.json $template_dist_dir/
