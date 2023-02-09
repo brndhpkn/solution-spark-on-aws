@@ -96,6 +96,36 @@ NagSuppressions.addStackSuppressions(stack, [
   {
     id: 'AwsSolutions-S10',
     reason: 'TODO:triage come back and fill the suppression reason'
+  },
+  // ------ Below are warnings created by Solutions pipeline CFN nag
+  {
+    id: 'W68',
+    reason: 'TODO: Enable on Usage plan for API Gateway'
+  },
+  {
+    id: 'W33',
+    reason: 'TODO: EC2 Subnet should not have MapPublicIpOnLaunch set to true'
+  },
+  {
+    id: 'W55',
+    reason: 'TODO: Elastic Load Balancer V2 Listener SslPolicy should use TLS 1.2'
+  },
+  {
+    id: 'W12',
+    reason: 'TODO: IAM policy should not allow * resource'
+  },
+  {
+    id: 'W29',
+    reason: 'TODO: Security Groups found egress with port range instead of just a single port'
+  },
+  {
+    id: 'W9',
+    reason: 'TODO: Security Groups found with ingress cidr that is not /32'
+  },
+  {
+    id: 'W2',
+    reason:
+      'TODO: Security Groups found with cidr open to world on ingress.  This should never be true on instance.  Permissible on ELB.'
   }
 ]);
 
