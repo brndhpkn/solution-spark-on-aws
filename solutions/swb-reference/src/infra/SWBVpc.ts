@@ -3,7 +3,6 @@
  *  SPDX-License-Identifier: Apache-2.0
  */
 
-import { CfnResource } from 'aws-cdk-lib';
 import {
   FlowLog,
   FlowLogDestination,
