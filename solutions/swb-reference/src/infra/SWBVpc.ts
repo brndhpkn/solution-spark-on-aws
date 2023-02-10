@@ -59,53 +59,6 @@ export class SWBVpc extends Construct {
       !ecsSubnetIds.length ? albSubnetIds : ecsSubnetIds,
       SubnetType.PRIVATE_WITH_NAT
     );
-
-    let childMetadataNode = this.vpc.node.findChild('VpcFlowLogGroup').node.defaultChild as CfnResource;
-    childMetadataNode.addMetadata('cfn_nag', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      rules_to_suppress: [
-        {
-          id: 'W84',
-          reason: 'TODO: CloudWatchLogs LogGroup should specify a KMS Key Id to encrypt the log data'
-        }
-      ]
-    });
-
-    childMetadataNode = this.vpc.node.findChild('MainVPC').node.findChild('PublicSubnet1').node
-      .defaultChild as CfnResource;
-    childMetadataNode.addMetadata('cfn_nag', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      rules_to_suppress: [
-        {
-          id: 'W33',
-          reason: 'TODO: EC2 Subnet should not have MapPublicIpOnLaunch set to true'
-        }
-      ]
-    });
-
-    childMetadataNode = this.vpc.node.findChild('MainVPC').node.findChild('PublicSubnet2').node
-      .defaultChild as CfnResource;
-    childMetadataNode.addMetadata('cfn_nag', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      rules_to_suppress: [
-        {
-          id: 'W33',
-          reason: 'TODO: EC2 Subnet should not have MapPublicIpOnLaunch set to true'
-        }
-      ]
-    });
-
-    childMetadataNode = this.vpc.node.findChild('MainVPC').node.findChild('PublicSubnet3').node
-      .defaultChild as CfnResource;
-    childMetadataNode.addMetadata('cfn_nag', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      rules_to_suppress: [
-        {
-          id: 'W33',
-          reason: 'TODO: EC2 Subnet should not have MapPublicIpOnLaunch set to true'
-        }
-      ]
-    });
   }
 
   private _getSubnetSelection(
