@@ -1258,31 +1258,6 @@ export class SWBStack extends Stack {
       ]
     });
 
-    childMetadataNode = API.node.findChild('Default').node.findChild('ANY').node.defaultChild as CfnResource;
-    childMetadataNode.addMetadata('cfn_nag', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      rules_to_suppress: [
-        {
-          id: 'W59',
-          reason:
-            "TODO:triage should not have AuthorizationType set to 'NONE' unless it is of HttpMethod: OPTIONS.."
-        }
-      ]
-    });
-
-    childMetadataNode = API.node.findChild('Default').node.findChild('{proxy+}').node.findChild('ANY').node
-      .defaultChild as CfnResource;
-    childMetadataNode.addMetadata('cfn_nag', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      rules_to_suppress: [
-        {
-          id: 'W59',
-          reason:
-            "TODO:triage should not have AuthorizationType set to 'NONE' unless it is of HttpMethod: OPTIONS.."
-        }
-      ]
-    });
-
     childMetadataNode = API.node.findChild('Deployment').node.defaultChild as CfnResource;
     childMetadataNode.addMetadata('cfn_nag', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -1310,6 +1285,31 @@ export class SWBStack extends Stack {
         defaultIntegration: new LambdaIntegration(alias)
       });
     }
+
+    childMetadataNode = API.node.findChild('Default').node.findChild('ANY').node.defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W59',
+          reason:
+            "TODO:triage should not have AuthorizationType set to 'NONE' unless it is of HttpMethod: OPTIONS.."
+        }
+      ]
+    });
+
+    childMetadataNode = API.node.findChild('Default').node.findChild('{proxy+}').node.findChild('ANY').node
+      .defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W59',
+          reason:
+            "TODO:triage should not have AuthorizationType set to 'NONE' unless it is of HttpMethod: OPTIONS.."
+        }
+      ]
+    });
 
     return API.url;
   }
