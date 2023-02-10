@@ -60,7 +60,10 @@ export class SWBVpc extends Construct {
       SubnetType.PRIVATE_WITH_NAT
     );
 
-    const vpcMetadataNode = this.vpc.node.defaultChild as CfnResource;
+    const vpcMetadataNode = this.vpc.node
+      .findChild('MainVPC')
+      .node.findChild('PublicSubnet1')
+      .node.findChild('Subnet').node.defaultChild as CfnResource;
     vpcMetadataNode.addMetadata('cfn_nag', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       rules_to_suppress: [
