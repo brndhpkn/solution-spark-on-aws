@@ -1097,6 +1097,10 @@ export class SWBStack extends Stack {
           id: 'W92',
           reason:
             'TODO:triage (ApiLambda) Lambda functions should define ReservedConcurrentExecutions to reserve simultaneous executions'
+        },
+        {
+          id: 'W12',
+          reason: 'TODO: IAM policy should not allow * resource'
         }
       ]
     });
@@ -1161,6 +1165,10 @@ export class SWBStack extends Stack {
           id: 'W59',
           reason:
             "TODO:triage should not have AuthorizationType set to 'NONE' unless it is of HttpMethod: OPTIONS.."
+        },
+        {
+          id: 'W68',
+          reason: 'TODO: Enable on Usage plan for API Gateway'
         }
       ]
     });

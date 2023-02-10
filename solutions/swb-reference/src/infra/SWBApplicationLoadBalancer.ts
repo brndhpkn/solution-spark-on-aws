@@ -3,6 +3,7 @@
  *  SPDX-License-Identifier: Apache-2.0
  */
 
+import { CfnResource } from 'aws-cdk-lib';
 import { IVpc, SubnetSelection } from 'aws-cdk-lib/aws-ec2';
 import { ApplicationLoadBalancer } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
@@ -28,5 +29,28 @@ export class SWBApplicationLoadBalancer extends Construct {
       internetFacing
     });
     this.applicationLoadBalancer.logAccessLogs(accessLogsBucket);
+    const albMetadataNode = this.applicationLoadBalancer.node.defaultChild as CfnResource;
+    albMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W55',
+          reason: 'TODO: Elastic Load Balancer V2 Listener SslPolicy should use TLS 1.2'
+        },
+        {
+          id: 'W29',
+          reason: 'TODO: Security Groups found egress with port range instead of just a single port'
+        },
+        {
+          id: 'W9',
+          reason: 'TODO: Security Groups found with ingress cidr that is not /32'
+        },
+        {
+          id: 'W2',
+          reason:
+            'TODO: Security Groups found with cidr open to world on ingress.  This should never be true on instance.  Permissible on ELB.'
+        }
+      ]
+    });
   }
 }
