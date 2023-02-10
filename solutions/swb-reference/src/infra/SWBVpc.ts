@@ -36,6 +36,17 @@ export class SWBVpc extends Construct {
 
     this.vpc = vpcId === '' ? new Vpc(this, 'MainVPC', {}) : Vpc.fromLookup(this, 'MainVPC', { vpcId });
 
+    let childMetadataNode = this.vpc.node.findChild('VpcFlowLogGroup').node.defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W84',
+          reason: 'TODO: CloudWatchLogs LogGroup should specify a KMS Key Id to encrypt the log data'
+        }
+      ]
+    });
+
     const logGroup = new LogGroup(this, 'VpcFlowLogGroup');
 
     const role = new Role(this, 'VpcFlowLogRole', {
@@ -59,6 +70,42 @@ export class SWBVpc extends Construct {
       !ecsSubnetIds.length ? albSubnetIds : ecsSubnetIds,
       SubnetType.PRIVATE_WITH_NAT
     );
+
+    childMetadataNode = this.vpc.node.findChild('MainVPC').node.findChild('PublicSubnet1').node
+      .defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W33',
+          reason: 'TODO: EC2 Subnet should not have MapPublicIpOnLaunch set to true'
+        }
+      ]
+    });
+
+    childMetadataNode = this.vpc.node.findChild('MainVPC').node.findChild('PublicSubnet2').node
+      .defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W33',
+          reason: 'TODO: EC2 Subnet should not have MapPublicIpOnLaunch set to true'
+        }
+      ]
+    });
+
+    childMetadataNode = this.vpc.node.findChild('MainVPC').node.findChild('PublicSubnet3').node
+      .defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W33',
+          reason: 'TODO: EC2 Subnet should not have MapPublicIpOnLaunch set to true'
+        }
+      ]
+    });
   }
 
   private _getSubnetSelection(
@@ -78,16 +125,6 @@ export class SWBVpc extends Construct {
     subnetIds.forEach(function (subnetId: string) {
       const subnet = Subnet.fromSubnetId(scope, `SWB${subnetPrefix}Subnet${subnetCount}`, subnetId);
       subnets.push(subnet);
-      const subnetMetadataNode = subnet.node.defaultChild as CfnResource;
-      subnetMetadataNode.addMetadata('cfn_nag', {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        rules_to_suppress: [
-          {
-            id: 'W33',
-            reason: 'TODO: EC2 Subnet should not have MapPublicIpOnLaunch set to true'
-          }
-        ]
-      });
       subnetCount++;
     });
 

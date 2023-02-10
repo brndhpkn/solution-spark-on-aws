@@ -327,6 +327,26 @@ export class SWBStack extends Stack {
       memorySize: 256
     });
 
+    const childMetadataNode = proxyLambda.node.defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W58',
+          reason: 'TODO: Lambda functions require permission to write CloudWatch Logs'
+        },
+        {
+          id: 'W89',
+          reason: 'TODO: Lambda functions should be deployed inside a VPC'
+        },
+        {
+          id: 'W92',
+          reason:
+            'TODO: Lambda functions should define ReservedConcurrentExecutions to reserve simultaneous executions'
+        }
+      ]
+    });
+
     new Alias(this, 'LiveProxyLambdaAlias', {
       aliasName: 'live',
       version: proxyLambda.currentVersion,
@@ -1092,8 +1112,8 @@ export class SWBStack extends Stack {
       value: apiLambda.role!.roleArn
     });
 
-    const apiLambdaMetadataNode = apiLambda.node.defaultChild as CfnResource;
-    apiLambdaMetadataNode.addMetadata('cfn_nag', {
+    let childMetadataNode = apiLambda.node.defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       rules_to_suppress: [
         {
@@ -1108,10 +1128,21 @@ export class SWBStack extends Stack {
           id: 'W92',
           reason:
             'TODO:triage (ApiLambda) Lambda functions should define ReservedConcurrentExecutions to reserve simultaneous executions'
-        },
+        }
+      ]
+    });
+
+    childMetadataNode = apiLambda.node.findChild('apiLambdaPolicy').node.defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
         {
           id: 'W12',
           reason: 'TODO: IAM policy should not allow * resource'
+        },
+        {
+          id: 'W76',
+          reason: 'TODO: SPCM for IAM policy document is higher than 25'
         }
       ]
     });
@@ -1164,7 +1195,7 @@ export class SWBStack extends Stack {
       }
     });
 
-    const childMetadataNode = API.node.findChild('DeploymentStage.dev').node.defaultChild as CfnResource;
+    let childMetadataNode = API.node.findChild('DeploymentStage.dev').node.defaultChild as CfnResource;
     childMetadataNode.addMetadata('cfn_nag', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       rules_to_suppress: [
@@ -1176,7 +1207,39 @@ export class SWBStack extends Stack {
           id: 'W59',
           reason:
             "TODO:triage should not have AuthorizationType set to 'NONE' unless it is of HttpMethod: OPTIONS.."
-        },
+        }
+      ]
+    });
+
+    childMetadataNode = API.node.findChild('Default').node.findChild('ANY').node.defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W59',
+          reason:
+            "TODO:triage should not have AuthorizationType set to 'NONE' unless it is of HttpMethod: OPTIONS.."
+        }
+      ]
+    });
+
+    childMetadataNode = API.node.findChild('Default').node.findChild('{proxy+}').node.findChild('ANY').node
+      .defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W59',
+          reason:
+            "TODO:triage should not have AuthorizationType set to 'NONE' unless it is of HttpMethod: OPTIONS.."
+        }
+      ]
+    });
+
+    childMetadataNode = API.node.findChild('Deployment').node.defaultChild as CfnResource;
+    childMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
         {
           id: 'W68',
           reason: 'TODO: Enable on Usage plan for API Gateway'
