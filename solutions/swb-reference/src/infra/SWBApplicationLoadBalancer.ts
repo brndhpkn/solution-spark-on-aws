@@ -29,22 +29,9 @@ export class SWBApplicationLoadBalancer extends Construct {
       internetFacing
     });
     this.applicationLoadBalancer.logAccessLogs(accessLogsBucket);
-    const albListenerMetadataNode = this.applicationLoadBalancer.node
-      .findChild('SWBApplicationLoadBalancer')
-      .node.findChild('HTTPSListener').node.defaultChild as CfnResource;
-    albListenerMetadataNode.addMetadata('cfn_nag', {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      rules_to_suppress: [
-        {
-          id: 'W55',
-          reason: 'TODO: Elastic Load Balancer V2 Listener SslPolicy should use TLS 1.2'
-        }
-      ]
-    });
 
-    const albSGMetadataNode = this.applicationLoadBalancer.node
-      .findChild('SWBApplicationLoadBalancer')
-      .node.findChild('SecurityGroup').node.defaultChild as CfnResource;
+    const albSGMetadataNode = this.applicationLoadBalancer.node.findChild('SecurityGroup').node
+      .defaultChild as CfnResource;
     albSGMetadataNode.addMetadata('cfn_nag', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       rules_to_suppress: [

@@ -343,6 +343,17 @@ export class SWBStack extends Stack {
       certificates: [certificate]
     });
 
+    const listenerMetadataNode = httpsListener.node.defaultChild as CfnResource;
+    listenerMetadataNode.addMetadata('cfn_nag', {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      rules_to_suppress: [
+        {
+          id: 'W55',
+          reason: 'TODO: Elastic Load Balancer V2 Listener SslPolicy should use TLS 1.2'
+        }
+      ]
+    });
+
     const targetGroup = new ApplicationTargetGroup(this, 'proxyLambdaTargetGroup', {
       targetType: TargetType.LAMBDA,
       targets: [new LambdaTarget(proxyLambda)]
