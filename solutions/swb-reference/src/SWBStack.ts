@@ -1179,7 +1179,7 @@ export class SWBStack extends Stack {
       ]
     });
 
-    childMetadataNode = apiLambda.node.findChild('apiLambdaPolicy').node.defaultChild as CfnResource;
+    childMetadataNode = this.node.findChild('apiLambdaPolicy').node.defaultChild as CfnResource;
     childMetadataNode.addMetadata('cfn_nag', {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       rules_to_suppress: [
