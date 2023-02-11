@@ -106,6 +106,8 @@ echo "find $dist_dir -iname "cdk.out" -type d -exec rm -rf "{}" \; 2> /dev/null"
 find $dist_dir -iname "cdk.out" -type d -exec rm -rf "{}" \; 2> /dev/null
 echo "find $dist_dir -iname "dist" -type d -exec rm -rf "{}" \; 2> /dev/null"
 find $dist_dir -iname "dist" -type d -exec rm -rf "{}" \; 2> /dev/null
+echo "find $dist_dir -iname "lib" -type d -exec rm -rf "{}" \; 2> /dev/null"
+find $dist_dir -iname "lib" -type d -exec rm -rf "{}" \; 2> /dev/null
 
 echo "------------------------------------------------------------------------------"
 echo "[Packing] Create GitHub (open-source) zip file"
