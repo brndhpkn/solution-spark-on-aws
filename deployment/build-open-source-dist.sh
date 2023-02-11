@@ -3,11 +3,6 @@
 # This script packages your project into an open-source solution distributable 
 # that can be published to sites like GitHub.
 #
-# Important notes and prereq's:
-#   1. The initialize-repo.sh script must have been run in order for this script to
-#      function properly.
-#   2. This script should be run from the repo's /deployment folder.
-# 
 # This script will perform the following tasks:
 #   1. Remove any old dist files from previous runs.
 #   2. Package the GitHub contribution and pull request templates (typically
