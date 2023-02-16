@@ -422,7 +422,23 @@ export const routesMap: RoutesMap = {
           subject: 'SshKey'
         }
       ]
-    }
+    },
+  [`/projects/${resourceTypeToKey.project.toLowerCase()}-${uuidRegExpAsString}/sshKeys`]: {
+    GET: [
+      {
+        action: 'READ',
+        subject: 'SshKey'
+      }
+    ]
+  },
+  [`/projects/${resourceTypeToKey.project.toLowerCase()}-${uuidRegExpAsString}/sshKeys`]: {
+    POST: [
+      {
+        action: 'CREATE',
+        subject: 'SshKey'
+      }
+    ]
+  }
 };
 
 export const routesIgnored: RoutesIgnored = {

@@ -26,6 +26,7 @@ import { UpdateEnvironmentTypeConfigRequest } from './envTypeConfigs/updateEnvir
 import { AwsServiceError } from './errors/awsServiceError';
 import { ConflictError } from './errors/conflictError';
 import { DatabaseError } from './errors/databaseError';
+import { DuplicateKeyError } from './errors/duplicateKeyError';
 import { Ec2Error } from './errors/ec2Error';
 import { NoKeyExistsError } from './errors/noKeyExistsError';
 import { NonUniqueKeyError } from './errors/nonUniqueKeyError';
@@ -52,7 +53,10 @@ import { CreateSshKeyRequest } from './sshKeys/createSshKeyRequest';
 import { CreateSshKeyResponse } from './sshKeys/createSshKeyResponse';
 import { DeleteSshKeyRequest } from './sshKeys/deleteSshKeyRequest';
 import { ListUserSshKeysForProjectRequest } from './sshKeys/listUserSshKeysForProjectRequest';
-import { ListUserSshKeysForProjectResponse } from './sshKeys/listUserSshKeysForProjectResponse';
+import {
+  ListUserSshKeysForProjectResponse,
+  ListUserSshKeysForProjectResponseParser
+} from './sshKeys/listUserSshKeysForProjectResponse';
 import { SendPublicKeyRequest } from './sshKeys/sendPublicKeyRequest';
 import { SendPublicKeyResponse } from './sshKeys/sendPublicKeyResponse';
 import { SshKey, SshKeyParser } from './sshKeys/sshKey';
@@ -83,6 +87,7 @@ export {
   DeleteSshKeyRequest,
   ListUserSshKeysForProjectRequest,
   ListUserSshKeysForProjectResponse,
+  ListUserSshKeysForProjectResponseParser,
   SshKey,
   SshKeyParser,
   SshKeyPlugin,
@@ -107,5 +112,6 @@ export {
   GetProjectEnvTypeConfigRequestParser,
   ListEnvTypeConfigProjectsRequest,
   ListEnvTypeConfigProjectsRequestParser,
-  Project
+  Project,
+  DuplicateKeyError
 };
