@@ -127,7 +127,7 @@ Follow these steps to request a quota increase for App Registry application reso
 
 1. In **Change quota**, enter your estimated number of workspaces plus 1 (infrastructure resource).
 
-1. Choose **Request**.
+1. Choose **Request**.  
 
 
 
