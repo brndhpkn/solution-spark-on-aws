@@ -58,7 +58,7 @@ CDKToolkit: creating CloudFormation changeset...
 ```
 
 ### Deploy the code
-In `swb-reference` root directory run the following code
+In the `swb-reference` root directory run the following code
 
 ```bash
 STAGE=<STAGE> rushx cdk-deploy              # Deploy code to `Main Account` on AWS
@@ -79,7 +79,7 @@ STAGE=<STAGE> rushx run-postDeployment      # Setup Service Catalog portfolio an
 
 ## Deploy to the Hosting Account
 After the deployment succeeds, we will need to set up the `Hosting account`
-1. Log into your AWS `Hosting Account` and go to Cloudformation
+1. Sign in to your AWS `Hosting Account` and go to Cloudformation.
 1. Choose to create a new stack. On the prompt `Create Stack`, choose `Upload a template file`. Upload [onboard-account.cfn.yaml](./src/templates/onboard-account.cfn.yaml)
 1. For the stack name, use the following value: `swb-<stage>-<awsRegionShortName>-hosting-account`, for example `swb-dev-va-hosting-account`
 1. For the parameters provide the following values
@@ -107,25 +107,27 @@ VpcSubnet
 ```
 ### Configuring App Registry applications limits
 
-Service Workbench uses [AWS App Registry](https://docs.aws.amazon.com/servicecatalog/latest/arguide/intro-app-registry.html) applications to group and add metadata and attributes to resources created.
+Service Workbench v2.0 on AWS uses [AWS App Registry](https://docs.aws.amazon.com/servicecatalog/latest/arguide/intro-app-registry.html) applications to group and add metadata and attributes to created resources.
 By using App Registry, Service Workbench is able to organize its resources and track their dependencies more efficiently.
 Every resource created in Service Workbench is associated to an App Registry application including all workspaces.
 App Registry currently has a default limit of 1000 resources per application.
 
 If you are estimating to have more than 999 Workspaces created in your Service Workbench instance a service quota increase will be needed.
-Follow the next steps to request a quota increase for App Registry application resources:
+Follow these steps to request a quota increase for App Registry application resources:
 
-1. Sign in to your Hosting Account AWS Management Console and open the Service Quotas console at https://console.aws.amazon.com/servicequotas/home.
+1. Sign in to your **Hosting Account** in the [AWS Management Console](https://console.aws.amazon.com/console/home?nc2=h_ct&src=header-signin). 
 
-2. In the navigation pane, choose AWS services.
+1. Open the [**Service Quotas console**](https://console.aws.amazon.com/servicequotas/home).
 
-3. In the filter search box type `AWS Service Catalog` and click `AWS Service Catalog` link in AWS Services grid. This will redirect to Service Catalog Service Quotas page.
+1. In the search, enter `AWS Service Catalog` and choose **Service Catalog** from the results.
 
-4. In Services Quota Grid click `Resources per application` link.
+1. Under **Services Quota**, choose **Resources per application**.
 
-5. In the Resources per application page click `Request Quota Increase` button inside `Recent quota increase requests` section.
+1. On the **Resources per application** page, choose **Request Quota Increase** under **Recent quota increase requests**.
 
-6. Type your estimated number of workspaces plus 1 (infrastructure resource) in `Change quota` value input and click `Request` button.
+1. In **Change quota**, enter your estimated number of workspaces plus 1 (infrastructure resource).
+
+1. Choose **Request**.
 
 
 
